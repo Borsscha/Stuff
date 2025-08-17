@@ -1,0 +1,25 @@
+using UnityEngine;
+
+public class ClassSelectionUI : MonoBehaviour
+{
+    public PlayerClassSO mageClass;
+    public PlayerClassSO warriorClass;
+    public PlayerClassSO hunterClass;
+
+    public ClassManager classManager;
+
+    public void SelectMage()
+    {
+        classManager.SetClass(mageClass);
+    }
+
+    public void SelectWarrior()
+    {
+        classManager.SetClass(warriorClass);
+    }
+
+    public void SelectHunter()
+    {
+        classManager.SetClass(hunterClass);
+    }
+}
