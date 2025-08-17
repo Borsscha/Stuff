@@ -1,0 +1,49 @@
+using UnityEngine;
+
+public class PlayerStats : MonoBehaviour
+{
+    [Header("Base Stats")]
+    public int maxHP;
+    public int currentHP;
+
+    public int strength;
+    public int dexterity;
+    public int intelligence;
+    public int constitution;
+
+    public float critChance;
+    public float critDamage;
+    public float moveSpeed;
+    public float attackSpeed;
+
+    [Header("Class Stats")]
+    public int maxMana, currentMana;
+    public int maxRage, currentRage;
+    public int maxStamina, currentStamina;
+
+    public PlayerClassSO.ResourceType currentClassResource;
+
+    public bool TrySpendResource(int amount)
+    {
+        switch (currentClassResource)  // ResourceType enum
+        {
+            case PlayerClassSO.ResourceType.Mana:
+                if (currentMana < amount) return false;
+                currentMana -= amount;
+                return true;
+
+            case PlayerClassSO.ResourceType.Rage:
+                if (currentRage < amount) return false;
+                currentRage -= amount;
+                return true;
+
+            case PlayerClassSO.ResourceType.Stamina:
+                if (currentStamina < amount) return false;
+                currentStamina -= amount;
+                return true;
+        }
+        return false;
+    }
+
+    // TODO
+}
