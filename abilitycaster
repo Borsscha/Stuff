@@ -21,7 +21,6 @@ public class AbilityCaster : MonoBehaviour
 
     private void Update()
     {
-        // Testweise Skills mit 1–4 casten
         if (Input.GetKeyDown(KeyCode.Alpha1)) TryCast(0);
         if (Input.GetKeyDown(KeyCode.Alpha2)) TryCast(1);
         if (Input.GetKeyDown(KeyCode.Alpha3)) TryCast(2);
