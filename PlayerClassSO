@@ -1,0 +1,20 @@
+using UnityEngine;
+
+[CreateAssetMenu(menuName = "RPG/Class")]
+public class PlayerClassSO : ScriptableObject
+{
+    public string classId;
+    public string displayName;
+
+    public int baseHP = 100;
+    public int baseStr = 1;
+    public int baseDex = 1;
+    public int baseInt = 1;
+    public int baseCon = 1;
+
+    public enum ResourceType { Mana, Rage, Stamina }
+    public ResourceType primaryResourceType;
+    public int basePrimaryResource = 100;
+
+    public SkillSO[] starterSkills;
+}
