@@ -4,8 +4,8 @@ using UnityEngine;
 public class CameraFollow : MonoBehaviour
 {
     public Transform target;              // Player
-    public Vector2 offset = Vector2.zero; // XY-Offset in Weltkoordinaten
-    public float smoothTime = 0.15f;      // 0 = sofortig, höher = weicher
+    public Vector2 offset = Vector2.zero; 
+    public float smoothTime = 0.15f;      
 
     private Vector3 _velocity;            // für SmoothDamp
     private float _fixedZ;                // Kamera-Z bleibt konstant
@@ -13,7 +13,6 @@ public class CameraFollow : MonoBehaviour
     void Awake()
     {
         _fixedZ = transform.position.z;   // z.B. -10
-        // Optional für 2D:
         // GetComponent<Camera>().orthographic = true;
     }
 
