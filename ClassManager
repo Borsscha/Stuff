@@ -1,0 +1,42 @@
+using System.Collections.Generic;
+using UnityEngine;
+
+public class ClassManager : MonoBehaviour
+{
+    public PlayerClassSO currentClass;
+
+    [SerializeField] private PlayerStats stats;
+    [SerializeField] private AbilityCaster caster;
+
+    public List<SkillSO> unlockedSkills = new();
+
+    public void SetClass(PlayerClassSO newClass)
+    {
+        currentClass = newClass;
+
+        stats.maxHP = stats.currentHP = newClass.baseHP;
+        stats.strength = newClass.baseStr;
+        stats.dexterity = newClass.baseDex;
+        stats.intelligence = newClass.baseInt;
+        stats.constitution = newClass.baseCon;
+
+        switch (newClass.primaryResourceType)
+        {
+            case PlayerClassSO.ResourceType.Mana:
+                stats.maxMana = stats.currentMana = newClass.basePrimaryResource;
+                break;
+            case PlayerClassSO.ResourceType.Rage:
+                stats.maxRage = stats.currentRage = newClass.basePrimaryResource;
+                break;
+            case PlayerClassSO.ResourceType.Stamina:
+                stats.maxStamina = stats.currentStamina = newClass.basePrimaryResource;
+                break;
+        }
+
+        //stats.currentClassResource = newClass.primaryResourceType;
+        //stats.ResetAllCooldowns();
+        unlockedSkills.Clear();
+        unlockedSkills.AddRange(newClass.starterSkills);
+        caster.BindLoadout(unlockedSkills);
+    }
+}
