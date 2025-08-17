@@ -1,0 +1,53 @@
+using System.Collections.Generic;
+using UnityEngine;
+
+public class AbilityCaster : MonoBehaviour
+{
+    [SerializeField] private Transform firePoint;
+    [SerializeField] private PlayerStats stats;
+
+    private SkillSO[] loadout = new SkillSO[4];
+
+    // Cooldown-Timer
+    private readonly Dictionary<string, float> nextReadyTime = new();
+
+    public void BindLoadout(List<SkillSO> skills)
+    {
+        for (int i = 0; i < loadout.Length; i++)
+        {
+            loadout[i] = (i < skills.Count) ? skills[i] : null;
+        }
+    }
+
+    private void Update()
+    {
+        // Testweise Skills mit 1–4 casten
+        if (Input.GetKeyDown(KeyCode.Alpha1)) TryCast(0);
+        if (Input.GetKeyDown(KeyCode.Alpha2)) TryCast(1);
+        if (Input.GetKeyDown(KeyCode.Alpha3)) TryCast(2);
+        if (Input.GetKeyDown(KeyCode.Alpha4)) TryCast(3);
+    }
+
+    public bool TryCast(int slotIndex)
+    {
+        if (slotIndex < 0 || slotIndex >= loadout.Length) return false;
+        var skill = loadout[slotIndex];
+        if (skill == null) return false;
+
+        if (nextReadyTime.TryGetValue(skill.skillId, out float readyAt))
+        {
+            if (Time.time < readyAt) return false;
+        }
+
+        if (!stats.TrySpendResource((int)skill.manaCost)) return false;
+
+        bool success = skill.Execute(gameObject, firePoint);
+        if (success)
+        {
+            nextReadyTime[skill.skillId] = Time.time + skill.cooldown;
+            return true;
+        }
+
+        return false;
+    }
+}
