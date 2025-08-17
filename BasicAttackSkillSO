@@ -1,0 +1,38 @@
+using UnityEngine;
+
+[CreateAssetMenu(menuName = "RPG/Skills/BasicAttack")]
+public class BasicAttackSkillSO : SkillSO
+{
+    public GameObject fireballPrefab;
+    public float speed = 10f;
+    public int baseDamage = 5;
+
+    public override bool Execute(GameObject owner, Transform firePoint)
+    {
+        var stats = owner.GetComponent<PlayerStats>();
+        if (stats == null) return false;
+
+        int damage = baseDamage;
+
+        switch (stats.currentClassResource)
+        {
+            case PlayerClassSO.ResourceType.Mana:
+                damage += stats.intelligence * 2;
+                break;
+            case PlayerClassSO.ResourceType.Rage:
+            case PlayerClassSO.ResourceType.Stamina:
+                damage += stats.strength * 2;
+                break;
+        }
+
+        // Projektil erzeugen:
+        var go = GameObject.Instantiate(fireballPrefab, firePoint.position, firePoint.rotation);
+        var proj = go.GetComponent<Projectile>();
+        if (proj != null)
+        {
+            proj.Init(owner, damage, speed, firePoint.right);
+        }
+
+        return true;
+    }
+}
