@@ -1,0 +1,13 @@
+using UnityEngine;
+
+[CreateAssetMenu(fileName = "SkillSO", menuName = "Scriptable Objects/SkillSO")]
+public abstract class SkillSO : ScriptableObject
+{
+    public string skillId;
+    public string displayName;
+    public Sprite icon;
+    public float manaCost = 10f;
+    public float cooldown = 2f;
+
+    public abstract bool Execute(GameObject owner, Transform firePoint);
+}
